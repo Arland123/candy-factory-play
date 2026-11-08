@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一罐没做完的糖</title>
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; background: #091020; color: #f7e8c7; }
+    #unity-canvas { display: block; width: 100%; height: 100%; }
+    #status { position: fixed; inset: 0; display: grid; place-items: center; padding: 24px;
+      background: #091020; font: 18px/1.8 sans-serif; white-space: pre-line; text-align: center; }
+    #status[hidden] { display: none; }
+  </style>
+  <!-- Official Worldline SDK v1.0.0 for the external-link submission track. -->
+  <script src="https://world.dayquay.com/sdk/v1/worldline.js"></script>
+  <script src="relay.js"></script>
+</head>
+<body>
+  <canvas id="unity-canvas" width=960 height=600 tabindex="0"></canvas>
+  <div id="status" role="status">正在接收旅程存档……</div>
+  <script src="Build/CandyFactory.loader.js"></script>
+  <script>
+    const status = document.getElementById('status');
+    // Wait for the real host save before Unity starts any gameplay. No offline default save.
+    CandyRelay.ready().then(function () {
+      status.textContent = '正在打开糖果工厂……';
+      return createUnityInstance(document.getElementById('unity-canvas'), {
+        dataUrl: 'Build/CandyFactory.data',
+        frameworkUrl: 'Build/CandyFactory.framework.js',
+        codeUrl: 'Build/CandyFactory.wasm',
+        streamingAssetsUrl: 'StreamingAssets',
+        companyName: "EightSeventeen",
+        productName: "八点十七分",
+        productVersion: "1.0",
+        showBanner: function (message, type) {
+          if (type === 'error') { status.hidden = false; status.textContent = message; }
+        }
+      });
+    }).then(function () {
+      status.hidden = true;
+    }).catch(function (error) {
+      status.hidden = false;
+      status.textContent = '暂时无法进入本关\n' + String(error && error.message || error);
+    });
+  </script>
+</body>
+</html>
