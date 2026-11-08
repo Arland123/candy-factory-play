@@ -18,16 +18,16 @@
 <body>
   <canvas id="unity-canvas" width=960 height=600 tabindex="0"></canvas>
   <div id="status" role="status">正在接收旅程存档……</div>
-  <script src="Build/CandyFactory.loader.js"></script>
+  <script src="Build/CandyFactory.loader.js?v=20261108-1815"></script>
   <script>
     const status = document.getElementById('status');
     // Wait for the real host save before Unity starts any gameplay. No offline default save.
     CandyRelay.ready().then(function () {
       status.textContent = '正在打开糖果工厂……';
       return createUnityInstance(document.getElementById('unity-canvas'), {
-        dataUrl: 'Build/CandyFactory.data',
-        frameworkUrl: 'Build/CandyFactory.framework.js',
-        codeUrl: 'Build/CandyFactory.wasm',
+        dataUrl: 'Build/CandyFactory.data?v=20261108-1815',
+        frameworkUrl: 'Build/CandyFactory.framework.js?v=20261108-1815',
+        codeUrl: 'Build/CandyFactory.wasm?v=20261108-1815',
         streamingAssetsUrl: 'StreamingAssets',
         companyName: "EightSeventeen",
         productName: "八点十七分",
